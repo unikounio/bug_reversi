@@ -2,7 +2,7 @@
 
 require 'minitest/autorun'
 require_relative '../lib/reversi_methods'
-
+require 'debug'
 class ReversiMethodsTest < Minitest::Test
   include ReversiMethods
 

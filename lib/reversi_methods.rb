@@ -73,19 +73,22 @@ module ReversiMethods
     end
   end
 
-  def finished?(board)
+  def finished?(board) ## placeable?がどちらもfalseまたはnilだった場合にtrueを返す。つまり置ける場所がない場合
+    return true if count_stone(board, WHITE_STONE) == 0 || count_stone(board, BLACK_STONE) == 0
     !placeable?(board, WHITE_STONE) && !placeable?(board, BLACK_STONE)
   end
 
   def placeable?(board, attack_stone_color)
     board.each_with_index do |cols, row|
       cols.each_with_index do |cell, col|
-        next unless cell == BLANK_CELL
+        next unless cell == BLANK_CELL ## 石が置かれている場合はそのポジションをスキップする
 
         position = Position.new(row, col)
         return true if put_stone(board, position.to_cell_ref, attack_stone_color, dry_run: true)
       end
     end
+
+
   end
 
   def count_stone(board, stone_color)
