@@ -47,7 +47,7 @@ module ReversiMethods
 
     # コピーした盤面にて石の配置を試みて、成功すれば反映する
     copied_board = Marshal.load(Marshal.dump(board))
-    copied_board[pos.col][pos.row] = stone_color
+    copied_board[pos.row][pos.col] = stone_color
 
     turn_succeed = false
     Position::DIRECTIONS.each do |direction|
@@ -73,7 +73,7 @@ module ReversiMethods
     end
   end
 
-  def finished?(board) ## placeable?がどちらもfalseまたはnilだった場合にtrueを返す。つまり置ける場所がない場合
+  def finished?(board)
     return true if count_stone(board, WHITE_STONE) == 0 || count_stone(board, BLACK_STONE) == 0
     !placeable?(board, WHITE_STONE) && !placeable?(board, BLACK_STONE)
   end
@@ -81,7 +81,7 @@ module ReversiMethods
   def placeable?(board, attack_stone_color)
     board.each_with_index do |cols, row|
       cols.each_with_index do |cell, col|
-        next unless cell == BLANK_CELL ## 石が置かれている場合はそのポジションをスキップする
+        next unless cell == BLANK_CELL
 
         position = Position.new(row, col)
         return true if put_stone(board, position.to_cell_ref, attack_stone_color, dry_run: true)
